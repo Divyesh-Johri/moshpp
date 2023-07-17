@@ -90,7 +90,7 @@ def read_mocap(mocap_fname):
     if mocap_fname.endswith('.mat'):
         import scipy.io
         _marker_data = scipy.io.loadmat(mocap_fname)
-
+        frame_rate = 50
         markers = None
         expected_marker_data_fields = ['MoCaps', 'Markers']
         for expected_key in expected_marker_data_fields:
@@ -105,7 +105,10 @@ def read_mocap(mocap_fname):
     elif mocap_fname.endswith('.pkl'):
         with open(mocap_fname, 'rb') as f:
             _marker_data = pickle.load(f, encoding='latin-1')
-        markers = _marker_data['markers']
+       if "markers" in _marker_data:
+            markers = _marker_data["markers"]
+        else:
+            markers = []
         if 'required_parameters' in _marker_data.keys():
             frame_rate = _marker_data['required_parameters']['frame_rate']
         elif 'frame_rate' in _marker_data:
@@ -151,7 +154,7 @@ def read_mocap(mocap_fname):
     subject_id_map = {}
     for l in labels:
 
-        subject_name = l.split(':')[0] if ':' in l else 'null'
+        subject_name = mocap_fname.split('/')[-2]
         if subject_name not in subject_id_map: subject_id_map[subject_name] = len(subject_id_map)
         subject_mask.append(subject_id_map[subject_name])
 

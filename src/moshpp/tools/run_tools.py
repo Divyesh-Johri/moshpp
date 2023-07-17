@@ -151,9 +151,9 @@ def setup_mosh_omegaconf_resolvers():
                                             subject_id] if subject_id >= 0 else None,
                                         )  # use_cache=True) # should not use cache, so revaluation based on changed subject id works.
 
-    if not OmegaConf.has_resolver('resolve_mocap_subjects'):
-        OmegaConf.register_new_resolver('resolve_mocap_subjects',
-                                        lambda mocap_fname: MocapSession(mocap_fname, 'mm').subject_names,
+    if not OmegaConf.has_resolver('resolve_mocap_subject'):
+        OmegaConf.register_new_resolver('resolve_mocap_subject',
+                                        lambda mocap_fname: mocap_fname.split('/')[-2],
                                         use_cache=True)
 
     if not OmegaConf.has_resolver('resolve_multi_subject'):
