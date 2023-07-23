@@ -105,7 +105,7 @@ def read_mocap(mocap_fname):
     elif mocap_fname.endswith('.pkl'):
         with open(mocap_fname, 'rb') as f:
             _marker_data = pickle.load(f, encoding='latin-1')
-       if "markers" in _marker_data:
+        if "markers" in _marker_data:
             markers = _marker_data["markers"]
         else:
             markers = []
